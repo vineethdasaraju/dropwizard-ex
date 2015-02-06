@@ -14,7 +14,11 @@ public class ProgramServer extends Application<Configuration> {
 
     @Override
     public void run(Configuration configuration, Environment environment) throws Exception {
-        environment.jersey().register(new GetWeather());
+        final GetHistoricalWeatherData getHist = new GetHistoricalWeatherData("29.6520", "-82.3250");
+        environment.jersey().register(getHist);
+
+        final GetWeather getWeatherData = new GetWeather("29.6520", "-82.3250");
+        environment.jersey().register(getWeatherData);
     }
 
     public static void main(String[] args) throws Exception {

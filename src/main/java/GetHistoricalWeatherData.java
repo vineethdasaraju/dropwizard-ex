@@ -14,31 +14,31 @@ import java.net.URL;
  * Created by Vineeth on 2/6/2015.
  */
 
-@Path("/get-weather")
+@Path("/get-historical-weather")
 @Produces(MediaType.APPLICATION_JSON)
-public class GetWeather {
+public class GetHistoricalWeatherData {
 
     private final String defaultLat;
     private final String defaultLong;
 
-    public GetWeather(String defaultLat, String defaultLong) {
+    public GetHistoricalWeatherData(String defaultLat, String defaultLong) {
         this.defaultLat = defaultLat;
         this.defaultLong = defaultLong;
     }
 
     @GET
-    public String getWeather(@QueryParam("lat") Optional<String> latitude,
-                             @QueryParam("long") Optional<String> longitude){
+    public String getHistoricalData(@QueryParam("lat") Optional<String> latitude,
+                                    @QueryParam("long") Optional<String> longitude){
 
         final String lat = latitude.or(defaultLat);
         final String lon = longitude.or(defaultLong);
 
-        return getWeatherFromAPI(lat, lon);
+        return getHistoricalDataFromAPI(lat, lon);
     }
 
-    private String getWeatherFromAPI(String latitude, String longitude){
+    private String getHistoricalDataFromAPI(String latitude, String longitude){
         try {
-            String getWeatherByCoordinates = "http://api.openweathermap.org/data/2.5/weather?lat="+latitude+"&lon="+longitude+"&units=metric";
+            String getWeatherByCoordinates = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="+latitude+"&lon="+longitude+"&cnt=10&mode=json&units=metric";
             URL url = new URL(getWeatherByCoordinates);
             HttpURLConnection connection =
                     (HttpURLConnection)url.openConnection();
